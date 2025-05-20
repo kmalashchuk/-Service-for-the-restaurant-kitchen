@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'menu',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +69,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Service_for_the_restaurant_kitchen.wsgi.application'
 
+AUTH_USER_MODEL = "menu.Cook"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
