@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+
+</head>
+<body>
+<h2>Dish Types</h2>
+<a href="{% url 'menu:dishtype-create' %}">Add new</a>
+<ul>
+  {% for dishtype in dishtype_list %}
+    <li>
+      {{ dishtype.name }}
+      <a href="{% url 'menu:dishtype-update' dishtype.pk %}">Edit</a>
+      <a href="{% url 'menu:dishtype-delete' dishtype.pk %}">Delete</a>
+    </li>
+  {% endfor %}
+</ul>
+
+
+</body>
+</html>

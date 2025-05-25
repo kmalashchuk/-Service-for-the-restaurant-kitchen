@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h2>Ingredients</h2>
+<a href="{% url 'menu:ingredient-create' %}">Add new</a>
+<ul>
+  {% for ingredient in ingredient_list %}
+    <li>
+      {{ ingredient.name }}
+      <a href="{% url 'menu:ingredient-update' ingredient.pk %}">Edit</a>
+      <a href="{% url 'menu:ingredient-delete' ingredient.pk %}">Delete</a>
+    </li>
+  {% endfor %}
+</ul>
+
+</body>
+</html>
