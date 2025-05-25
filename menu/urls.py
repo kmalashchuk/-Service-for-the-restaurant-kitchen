@@ -20,4 +20,11 @@ urlpatterns = [
     path("dishtypes/create/", views.DishTypeCreateView.as_view(), name="dishtype-create"),
     path("dishtypes/<int:pk>/update/", views.DishTypeUpdateView.as_view(), name="dishtype-update"),
     path("dishtypes/<int:pk>/delete/", views.DishTypeDeleteView.as_view(), name="dishtype-delete"),
+
+    #Cook URLs
+    path("cooks/", views.CookListView.as_view(), name="cook-list"),
+    path("cooks/create/", views.CookCreateView.as_view(), name="cook-create"),
+    path("cooks/<int:pk>", views.CookDetailView.as_view(), name="cook-detail"),
+    path("cooks/<int:pk>/update/", views.CookUpdateView.as_view(), name="cook-update"),
+    path("cooks/<int:pk>/delete/", views.CookDeleteView.as_view(), name="cook-delete"),
 ]

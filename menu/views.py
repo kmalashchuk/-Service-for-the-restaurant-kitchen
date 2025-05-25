@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import DetailView, UpdateView, DeleteView, ListView, CreateView
 
-from menu.models import Dish, Ingredient, DishType
+from menu.models import Dish, Ingredient, DishType, Cook
 from django.shortcuts import render
 
 def index(request):
@@ -69,3 +69,40 @@ class DishTypeUpdateView(generic.UpdateView):
 class DishTypeDeleteView(generic.DeleteView):
     model = DishType
     success_url = reverse_lazy("menu:dishtype-list")
+
+class CookListView(generic.ListView):
+    model = Cook
+    template_name = ("menu/cook_list.html")
+    context_object_name = "cook_list"
+    paginate_by = 10
+
+class CookDetailView(generic.DetailView):
+    model = Cook
+    context_object_name = "cook"
+    template_name = "menu/cook_detail.html"
+
+class CookCreateView(generic.CreateView):
+    model = Cook
+    fields = [
+        "username",
+        "first_name",
+        "last_name",
+        "years_of_experience",
+        "specialization"
+    ]
+    success_url = reverse_lazy("menu:cook-list")
+
+    def form_valid(self, form):
+        form.instance.set_password(form.cleaned_data["password"])
+        return super().form_valid(form)
+
+
+class CookUpdateView(generic.UpdateView):
+    model = Cook
+    fields = ["username", "first_name", "last_name", "years_of_experience", "specialization"]
+    success_url = reverse_lazy("menu:cook-list")
+
+
+class CookDeleteView(generic.DeleteView):
+    model = Cook
+    success_url = reverse_lazy("menu:cook-list")
