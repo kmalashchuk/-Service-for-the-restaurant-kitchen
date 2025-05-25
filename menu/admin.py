@@ -10,6 +10,21 @@ class CookAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
         ("Additional Info", {"fields": ("years_of_experience", "specialization")}),
     )
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        (
+            "Additional Info",
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "years_of_experience",
+                    "specialization",
+                )
+            },
+
+
+        )
+    )
 
 
 @admin.register(Dish)

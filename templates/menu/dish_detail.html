@@ -1,0 +1,7 @@
+<h2>{{ dish.name }}</h2>
+<p>{{ dish.description }}</p>
+<p>Price: ${{ dish.price }}</p>
+<p>Type: {{ dish.dish_type }}</p>
+<p>Cooks: {{ dish.cooks.all|join:", " }}</p>
+<a href="{% url 'menu:dish-update' dish.pk %}">Edit</a>
+<a href="{% url 'menu:dish-delete' dish.pk %}">Delete</a>

@@ -1,0 +1,5 @@
+<h2>Delete dish: {{ dish.name }}?</h2>
+<form method="post">{% csrf_token %}
+    <button type="submit">Confirm</button>
+</form>
+<a href="{% url 'menu:dish-detail' dish.pk %}">Cancel</a>
