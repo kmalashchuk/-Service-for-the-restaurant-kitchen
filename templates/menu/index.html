@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<h2>Welcome to Restaurant Kitchen!</h2>
+<p>Use the navigation menu or choose a section:</p>
+<div class="d-flex flex-column gap-2">
+    <a class="btn btn-primary" href="{% url 'menu:dish-list' %}">Dishes</a>
+    <a class="btn btn-primary" href="{% url 'menu:ingredient-list' %}">Ingredients</a>
+    <a class="btn btn-primary" href="{% url 'menu:dishtype-list' %}">Dish Types</a>
+    <a class="btn btn-primary" href="{% url 'menu:cook-list' %}">Cooks</a>
+</div>
+{% endblock %}

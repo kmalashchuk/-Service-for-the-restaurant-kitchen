@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Cook List{% endblock %}
+{% block content %}
+<h2>All Cooks</h2>
+<a class="btn btn-primary mb-3" href="{% url 'menu:cook-create' %}">Add Cook</a>
+<ul class="list-group">
+  {% for cook in cook_list %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      {{ cook.username }} ({{ cook.first_name }} {{ cook.last_name }})
+      <a href="{% url 'menu:cook-detail' cook.pk %}">View</a>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Cook Detail{% endblock %}
+{% block content %}
+<h2>{{ cook.username }}</h2>
+<p><strong>Name:</strong> {{ cook.first_name }} {{ cook.last_name }}</p>
+<p><strong>Experience:</strong> {{ cook.years_of_experience }} years</p>
+<p><strong>Specialization:</strong> {{ cook.specialization }}</p>
+
+<a class="btn btn-secondary" href="{% url 'menu:cook-update' cook.pk %}">Edit</a>
+<a class="btn btn-danger" href="{% url 'menu:cook-delete' cook.pk %}">Delete</a>
+{% endblock %}

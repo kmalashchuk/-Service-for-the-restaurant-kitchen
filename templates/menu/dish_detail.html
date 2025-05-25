@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ dish.name }}{% endblock %}
+{% block content %}
+<h2>{{ dish.name }}</h2>
+<p><strong>Type:</strong> {{ dish.dish_type }}</p>
+<p><strong>Price:</strong> ${{ dish.price }}</p>
+<p><strong>Description:</strong> {{ dish.description }}</p>
+<p><strong>Ingredients:</strong> {{ dish.ingredients.all|join:", " }}</p>
+<p><strong>Cooks:</strong> {{ dish.cooks.all|join:", " }}</p>
+
+<a class="btn btn-secondary" href="{% url 'menu:dish-update' dish.pk %}">Edit</a>
+<a class="btn btn-danger" href="{% url 'menu:dish-delete' dish.pk %}">Delete</a>
+<a class="btn btn-outline-primary" href="{% url 'menu:dish-list' %}">Back to list</a>
+{% endblock %}
