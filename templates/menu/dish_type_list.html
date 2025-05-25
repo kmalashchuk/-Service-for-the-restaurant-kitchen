@@ -1,24 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-
-
-</head>
-<body>
-<h2>Dish Types</h2>
-<a href="{% url 'menu:dishtype-create' %}">Add new</a>
-<ul>
-  {% for dishtype in dishtype_list %}
-    <li>
-      {{ dishtype.name }}
-      <a href="{% url 'menu:dishtype-update' dishtype.pk %}">Edit</a>
-      <a href="{% url 'menu:dishtype-delete' dishtype.pk %}">Delete</a>
+{% extends "base.html" %}
+{% block title %}Dish List{% endblock %}
+{% block content %}
+<h2>Dish Type List</h2>
+<a class="btn btn-primary mb-3" href="{% url 'menu:dishtype-create' %}">Add Dish Type</a>
+<ul class="list-group">
+  {% for dish in object_list %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      {{ dish.name }}
+      <span>
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'menu:dishtype-update' dish.pk %}">Edit</a>
+        <a class="btn btn-sm btn-outline-danger" href="{% url 'menu:dishtype-delete' dish.pk %}">Delete</a>
+      </span>
     </li>
   {% endfor %}
 </ul>
-
-
-</body>
-</html>
+{% endblock %}

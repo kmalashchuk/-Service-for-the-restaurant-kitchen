@@ -1,21 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
-<h2>Ingredients</h2>
-<a href="{% url 'menu:ingredient-create' %}">Add new</a>
-<ul>
-  {% for ingredient in ingredient_list %}
-    <li>
-      {{ ingredient.name }}
-      <a href="{% url 'menu:ingredient-update' ingredient.pk %}">Edit</a>
-      <a href="{% url 'menu:ingredient-delete' ingredient.pk %}">Delete</a>
+{% extends "base.html" %}
+{% block title %}Ingredients List{% endblock %}
+{% block content %}
+<h2>Dish List</h2>
+<a class="btn btn-primary mb-3" href="{% url 'menu:ingredient-create' %}">Add Dish</a>
+<ul class="list-group">
+  {% for dish in object_list %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      {{ dish.name }}
+      <span>
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'menu:ingredient-update' dish.pk %}">Edit</a>
+        <a class="btn btn-sm btn-outline-danger" href="{% url 'menu:ingredient-delete' dish.pk %}">Delete</a>
+      </span>
     </li>
   {% endfor %}
 </ul>
-
-</body>
-</html>
+{% endblock %}

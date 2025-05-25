@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Dish List{% endblock %}
+{% block content %}
+<h2>Dish List</h2>
+<a class="btn btn-primary mb-3" href="{% url 'menu:dish-create' %}">Add Dish</a>
+<ul class="list-group">
+  {% for dish in object_list %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      {{ dish.name }}
+      <span>
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'menu:dish-update' dish.pk %}">Edit</a>
+        <a class="btn btn-sm btn-outline-danger" href="{% url 'menu:dish-delete' dish.pk %}">Delete</a>
+      </span>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

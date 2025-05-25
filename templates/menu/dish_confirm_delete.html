@@ -1,5 +1,10 @@
-<h2>Delete dish: {{ dish.name }}?</h2>
-<form method="post">{% csrf_token %}
-    <button type="submit">Confirm</button>
+{% extends "base.html" %}
+{% block title %}Delete {{ object.name }}{% endblock %}
+{% block content %}
+<h3>Are you sure you want to delete <strong>{{ object.name }}</strong>?</h3>
+<form method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger" type="submit">Confirm</button>
+    <a class="btn btn-secondary" href="javascript:history.back()">Cancel</a>
 </form>
-<a href="{% url 'menu:dish-detail' dish.pk %}">Cancel</a>
+{% endblock %}
