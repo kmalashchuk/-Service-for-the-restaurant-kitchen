@@ -22,7 +22,7 @@ class DishCreateView(generic.CreateView):
     model = Dish
     fields = ["name", "description", "price", "dish_type", "ingredients", "cooks"]
     success_url = reverse_lazy("menu:dish-list")
-
+    template_name = "forms/dish_form.html"
 
 class DishUpdateView(generic.UpdateView):
     model = Dish
@@ -46,7 +46,7 @@ class IngredientCreateView(generic.CreateView):
     model = Ingredient
     fields = ["name"]
     success_url = reverse_lazy("menu:ingredient-list")
-
+    template_name = "forms/ingredient_form.html"
 
 class IngredientUpdateView(generic.UpdateView):
     model = Ingredient
@@ -70,6 +70,7 @@ class DishTypeCreateView(generic.CreateView):
     model = DishType
     fields = ["name"]
     success_url = reverse_lazy("menu:dishtype-list")
+    template_name = "forms/dishtype_form.html"
 
 
 class DishTypeUpdateView(generic.UpdateView):
@@ -100,6 +101,7 @@ class CookCreateView(generic.CreateView):
     model = Cook
     fields = ["username", "first_name", "last_name", "years_of_experience", "specialization"]
     success_url = reverse_lazy("menu:cook-list")
+    template_name = "forms/cook_form.html"
 
     def form_valid(self, form):
         form.instance.set_password(form.cleaned_data["password"])

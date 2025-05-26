@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Ingredient Form{% endblock %}
+{% block content %}
+<h2>Ingredient Form</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Save</button>
+  <a href="{% url 'menu:ingredient-list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
