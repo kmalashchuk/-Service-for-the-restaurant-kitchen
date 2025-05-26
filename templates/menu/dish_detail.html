@@ -11,4 +11,25 @@
 <a class="btn btn-secondary" href="{% url 'menu:dish-update' dish.pk %}">Edit</a>
 <a class="btn btn-danger" href="{% url 'menu:dish-delete' dish.pk %}">Delete</a>
 <a class="btn btn-outline-primary" href="{% url 'menu:dish-list' %}">Back to list</a>
+
+  <h2>{{ dish.name }}</h2>
+<p>{{ dish.description }}</p>
+
+<h4>Assigned cooks:</h4>
+<ul>
+  {% for cook in dish.cooks.all %}
+    <li>{{ cook.username }}</li>
+  {% empty %}
+    <li>No cooks assigned yet.</li>
+  {% endfor %}
+</ul>
+
+<form method="post" action="{% url 'menu:toggle-assign-to-dish' dish.pk %}">
+  {% csrf_token %}
+  {% if user in dish.cooks.all %}
+    <button type="submit" class="btn btn-danger">Unassign Me</button>
+  {% else %}
+    <button type="submit" class="btn btn-success">Assign Me</button>
+  {% endif %}
+</form>
 {% endblock %}

@@ -1,9 +1,12 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import DetailView, UpdateView, DeleteView, ListView, CreateView
 
 from menu.models import Dish, Ingredient, DishType, Cook
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+
 
 def index(request):
     return render(request, "menu/index.html")
@@ -13,7 +16,7 @@ class DishListView(generic.ListView):
     model = Dish
 
 
-class DishDetailView(generic.DetailView):
+class DishDetailView(LoginRequiredMixin, generic.DetailView):
     model = Dish
     context_object_name = "dish"
 
@@ -117,3 +120,16 @@ class CookUpdateView(generic.UpdateView):
 class CookDeleteView(generic.DeleteView):
     model = Cook
     success_url = reverse_lazy("menu:cook-list")
+
+
+@login_required
+def toggle_assign_to_dish(request, pk):
+    dish = get_object_or_404(Dish, pk=pk)
+    cook = request.user
+
+    if cook in dish.cooks.all():
+        dish.cooks.remove(cook)
+    else:
+        dish.cooks.add(cook)
+
+    return redirect("menu:dish-detail", pk=pk)
