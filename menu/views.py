@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import DetailView, UpdateView, DeleteView, ListView, CreateView
 
+from menu.forms import DishSearchForm, DishTypeSearchForm, CookSearchForm, IngredientSearchForm
 from menu.models import Dish, Ingredient, DishType, Cook
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -14,6 +15,22 @@ def index(request):
 
 class DishListView(generic.ListView):
     model = Dish
+    paginate_by = 10
+    queryset = Dish.objects.select_related("dish_type").prefetch_related("cooks")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["search_form"] = DishSearchForm(initial={"name": name})
+        return context
+
+    def get_queryset(self):
+        form = DishSearchForm(self.request.GET)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            if name:
+                return self.queryset.filter(name__icontains=name)
+        return self.queryset
 
 
 class DishDetailView(LoginRequiredMixin, generic.DetailView):
@@ -26,6 +43,13 @@ class DishCreateView(generic.CreateView):
     fields = ["name", "description", "price", "dish_type", "ingredients", "cooks"]
     success_url = reverse_lazy("menu:dish-list")
     template_name = "forms/dish_form.html"
+
+    def form_valid(self, form):
+        prise = form.cleaned_data["prise"]
+        if prise < 1.00:
+            form.add_error("prise", "Prise must be greater than or equal to 1.00")
+            return self.form_invalid(form)
+        return super().form_valid(form)
 
 class DishUpdateView(generic.UpdateView):
     model = Dish
@@ -43,7 +67,21 @@ class IngredientListView(generic.ListView):
     template_name = "menu/ingredient_list.html"
     context_object_name = "ingredient_list"
     paginate_by = 10
+    queryset = Ingredient.objects.all()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["search_form"] = IngredientSearchForm(initial={"name": name})
+        return context
+
+    def get_queryset(self):
+        form = IngredientSearchForm(self.request.GET)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            if name:
+                return self.queryset.filter(name__icontains=name)
+        return self.queryset
 
 class IngredientCreateView(generic.CreateView):
     model = Ingredient
@@ -55,6 +93,7 @@ class IngredientUpdateView(generic.UpdateView):
     model = Ingredient
     fields = ["name"]
     success_url = reverse_lazy("menu:ingredient-list")
+    template_name = "forms/ingredient_form.html"
 
 
 class IngredientDeleteView(generic.DeleteView):
@@ -67,6 +106,21 @@ class DishTypeListView(generic.ListView):
     template_name = "menu/dish_type_list.html"
     context_object_name = "dish_type_list"
     paginate_by = 10
+    queryset = DishType.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["search_form"] = DishTypeSearchForm(initial={"name": name})
+        return context
+
+    def get_queryset(self):
+        form = DishTypeSearchForm(self.request.GET)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            if name:
+                return self.queryset.filter(name__icontains=name)
+        return self.queryset
 
 
 class DishTypeCreateView(generic.CreateView):
@@ -92,7 +146,21 @@ class CookListView(generic.ListView):
     template_name = "menu/cook_list.html"
     context_object_name = "cook_list"
     paginate_by = 10
+    queryset = Cook.objects.all()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        username = self.request.GET.get("username", "")
+        context["search_form"] = CookSearchForm(initial={"username": username})
+        return context
+
+    def get_queryset(self):
+        form = CookSearchForm(self.request.GET)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            if username:
+                return self.queryset.filter(username__icontains=username)
+        return self.queryset
 
 class CookDetailView(generic.DetailView):
     model = Cook
