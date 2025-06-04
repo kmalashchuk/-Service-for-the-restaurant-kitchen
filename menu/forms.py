@@ -13,8 +13,8 @@ class DishForm(forms.ModelForm):
         model = Dish
         fields = ["name", "description", "price", "dish_type", "ingredients", "cooks"]
         widgets = {
-            "ingredients": forms.CheckboxSelectMultiple(),
-            "cooks": forms.CheckboxSelectMultiple(),
+            "ingredients": forms.SelectMultiple(attrs={"size": 10}),
+            "cooks": forms.SelectMultiple(attrs={"size": 5}),
         }
 
 

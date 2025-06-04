@@ -4,7 +4,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import DetailView, UpdateView, DeleteView, ListView, CreateView
 
-from menu.forms import DishSearchForm, DishTypeSearchForm, CookSearchForm, IngredientSearchForm
+from menu.forms import DishSearchForm, DishTypeSearchForm, CookSearchForm, IngredientSearchForm, CookCreateForm, \
+    DishForm
 from menu.models import Dish, Ingredient, DishType, Cook
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -40,14 +41,14 @@ class DishDetailView(LoginRequiredMixin, generic.DetailView):
 
 class DishCreateView(generic.CreateView):
     model = Dish
-    fields = ["name", "description", "price", "dish_type", "ingredients", "cooks"]
+    form_class = DishForm
     success_url = reverse_lazy("menu:dish-list")
     template_name = "forms/dish_form.html"
 
     def form_valid(self, form):
-        prise = form.cleaned_data["prise"]
+        prise = form.cleaned_data["price"]
         if prise < 1.00:
-            form.add_error("prise", "Prise must be greater than or equal to 1.00")
+            form.add_error("price", "Price must be greater than or equal to 1.00")
             return self.form_invalid(form)
         return super().form_valid(form)
 
@@ -55,7 +56,7 @@ class DishUpdateView(generic.UpdateView):
     model = Dish
     fields = ["name", "description", "price", "dish_type", "ingredients", "cooks"]
     success_url = reverse_lazy("menu:dish-list")
-
+    template_name = "forms/dish_form.html"
 
 class DishDeleteView(generic.DeleteView):
     model = Dish
@@ -134,7 +135,7 @@ class DishTypeUpdateView(generic.UpdateView):
     model = DishType
     fields = ["name"]
     success_url = reverse_lazy("menu:dishtype-list")
-
+    template_name = "forms/dishtype_form.html"
 
 class DishTypeDeleteView(generic.DeleteView):
     model = DishType
@@ -170,20 +171,16 @@ class CookDetailView(generic.DetailView):
 
 class CookCreateView(generic.CreateView):
     model = Cook
-    fields = ["username", "first_name", "last_name", "years_of_experience", "specialization"]
+    form_class = CookCreateForm
     success_url = reverse_lazy("menu:cook-list")
     template_name = "forms/cook_form.html"
-
-    def form_valid(self, form):
-        form.instance.set_password(form.cleaned_data["password"])
-        return super().form_valid(form)
 
 
 class CookUpdateView(generic.UpdateView):
     model = Cook
     fields = ["username", "first_name", "last_name", "years_of_experience", "specialization"]
     success_url = reverse_lazy("menu:cook-list")
-
+    template_name = "forms/cook_form.html"
 
 class CookDeleteView(generic.DeleteView):
     model = Cook
