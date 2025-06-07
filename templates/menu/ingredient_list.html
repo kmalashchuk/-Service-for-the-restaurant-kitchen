@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Ingredients List{% endblock %}
 {% block content %}
-<h2>Dish List</h2>
+<h2>Ingredients List</h2>
+  <form method="get" class="mb-3">
+  <input type="text" name="name" placeholder="Search dish by name..." class="form-control" value="{{ request.GET.name }}">
+  <button class="btn btn-outline-primary mt-2" type="submit">Search</button>
+</form>
+
 <a class="btn btn-primary mb-3" href="{% url 'menu:ingredient-create' %}">Add Dish</a>
 <ul class="list-group">
   {% for dish in object_list %}

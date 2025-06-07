@@ -2,6 +2,12 @@
 {% block title %}Cook List{% endblock %}
 {% block content %}
 <h2>All Cooks</h2>
+
+  <form method="get" class="mb-3">
+  <input type="text" name="name" placeholder="Search dish by name..." class="form-control" value="{{ request.GET.name }}">
+  <button class="btn btn-outline-primary mt-2" type="submit">Search</button>
+</form>
+
 <a class="btn btn-primary mb-3" href="{% url 'menu:cook-create' %}">Add Cook</a>
 <ul class="list-group">
   {% for cook in cook_list %}

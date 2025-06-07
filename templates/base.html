@@ -8,11 +8,22 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
     <a class="navbar-brand" href="{% url 'menu:index' %}">Kitchen</a>
-    <div class="navbar-nav">
+    <div class="navbar-nav me-auto">
         <a class="nav-link" href="{% url 'menu:dish-list' %}">Dishes</a>
         <a class="nav-link" href="{% url 'menu:ingredient-list' %}">Ingredients</a>
         <a class="nav-link" href="{% url 'menu:dishtype-list' %}">Dish Types</a>
         <a class="nav-link" href="{% url 'menu:cook-list' %}">Cooks</a>
+    </div>
+
+    <div class="d-flex">
+        {% if user.is_authenticated %}
+            <span class="navbar-text text-light me-3">
+                Hello, {{ user.username }}!
+            </span>
+            <a class="btn btn-outline-light" href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a class="btn btn-outline-light me-2" href="{% url 'login' %}">Login</a>
+        {% endif %}
     </div>
 </nav>
 
