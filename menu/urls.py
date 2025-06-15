@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from .views import DishUpdateView
+from django.contrib.auth import views as auth_views
 
 app_name = "menu"
 
@@ -32,4 +33,8 @@ urlpatterns = [
     path("cooks/<int:pk>/update/", views.CookUpdateView.as_view(), name="cook-update"),
     path("cooks/<int:pk>/delete/", views.CookDeleteView.as_view(), name="cook-delete"),
     path("dishes/<int:pk>/toggle-assign/", views.toggle_assign_to_dish, name="toggle-assign-to-dish"),
+
+    path("accounts/login/", auth_views.LoginView.as_view(), name="login"),
+    path("accounts/logout/", auth_views.LogoutView.as_view(), name="logout"),
+
 ]

@@ -1,11 +1,33 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block title %}Dish Form{% endblock %}
+
+{% block extra_head %}
+  <!-- Select2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
-<h2>Dish Form</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-success">Save</button>
-  <a href="{% url 'menu:dish-list' %}" class="btn btn-secondary">Cancel</a>
-</form>
+  <h2>Dish Form</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="{% url 'menu:dish-list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}
+
+{% block extra_js %}
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Select2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <!-- Ініціалізація Select2 -->
+  <script>
+    $(document).ready(function() {
+        $('#id_ingredients').select2();
+    });
+  </script>
 {% endblock %}

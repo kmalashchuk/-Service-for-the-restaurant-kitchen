@@ -9,9 +9,19 @@ from menu.forms import DishSearchForm, DishTypeSearchForm, CookSearchForm, Ingre
 from menu.models import Dish, Ingredient, DishType, Cook
 from django.shortcuts import render, get_object_or_404, redirect
 
-
+@login_required
 def index(request):
-    return render(request, "menu/index.html")
+
+    num_cooks = Cook.objects.all().count()
+    num_dish = Dish.objects.count()
+    num_dish_type = DishType.objects.count()
+
+    context = {
+        "num_cooks": num_cooks,
+        "num_dish": num_dish,
+        "num_dish_type": num_dish_type,
+    }
+    return render(request, "menu/index.html", context=context)
 
 
 class DishListView(generic.ListView):

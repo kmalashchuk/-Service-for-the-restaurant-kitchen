@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django_select2.forms import Select2MultipleWidget
 
 from .models import Dish, Cook, Ingredient, DishType
 
@@ -13,7 +14,7 @@ class DishForm(forms.ModelForm):
         model = Dish
         fields = ["name", "description", "price", "dish_type", "ingredients", "cooks"]
         widgets = {
-            "ingredients": forms.SelectMultiple(attrs={"size": 10}),
+            "ingredients": Select2MultipleWidget,
             "cooks": forms.SelectMultiple(attrs={"size": 5}),
         }
 
