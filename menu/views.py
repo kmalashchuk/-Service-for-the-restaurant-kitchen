@@ -1,5 +1,8 @@
+from itertools import product
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.serializers import serialize
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import DetailView, UpdateView, DeleteView, ListView, CreateView
@@ -12,14 +15,21 @@ from django.shortcuts import render, get_object_or_404, redirect
 @login_required
 def index(request):
 
-    num_cooks = Cook.objects.all().count()
+    num_cooks = Cook.objects.count()
     num_dish = Dish.objects.count()
     num_dish_type = DishType.objects.count()
+    products = serialize("json", Dish.objects.all(), fields=("name", "price"))
+    num_dishes_assigned = 0
+
+    if request.user.is_authenticated:
+        num_dishes_assigned = request.user.dishes.count()
 
     context = {
         "num_cooks": num_cooks,
         "num_dish": num_dish,
         "num_dish_type": num_dish_type,
+        "num_dishes_assigned": num_dishes_assigned,
+        "products": products,
     }
     return render(request, "menu/index.html", context=context)
 
