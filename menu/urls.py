@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from .views import DishUpdateView
+from django.contrib.auth import views as auth_views
 
 app_name = "menu"
 
@@ -7,8 +9,11 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("dishes/", views.DishListView.as_view(), name="dish-list"),
     path("dishes/<int:pk>", views.DishDetailView.as_view(), name="dish-detail"),
-    path("dishes/update/", views.DishUpdateView.as_view(), name="dish-update"),
-    path("dishes/delete/", views.DishDeleteView.as_view(), name="dish-delete"),
+    path("dishes/<int:pk>/update/", DishUpdateView.as_view(), name="dish-update"),
+    path("dishes/<int:pk>/delete/", views.DishDeleteView.as_view(), name="dish-delete"),
+    path("dishes/create/", views.DishCreateView.as_view(), name="dish-create"),
+
+
     # INGREDIENT URLs
     path("ingredients/", views.IngredientListView.as_view(), name="ingredient-list"),
     path("ingredients/create/", views.IngredientCreateView.as_view(), name="ingredient-create"),
@@ -27,4 +32,9 @@ urlpatterns = [
     path("cooks/<int:pk>", views.CookDetailView.as_view(), name="cook-detail"),
     path("cooks/<int:pk>/update/", views.CookUpdateView.as_view(), name="cook-update"),
     path("cooks/<int:pk>/delete/", views.CookDeleteView.as_view(), name="cook-delete"),
+    path("dishes/<int:pk>/toggle-assign/", views.toggle_assign_to_dish, name="toggle-assign-to-dish"),
+
+    path("accounts/login/", auth_views.LoginView.as_view(), name="login"),
+    path("accounts/logout/", auth_views.LogoutView.as_view(), name="logout"),
+
 ]

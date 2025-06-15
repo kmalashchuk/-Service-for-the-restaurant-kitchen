@@ -1,17 +1,53 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block title %}Dish List{% endblock %}
+
+{% block body %}class="bg-gray-200"{% endblock %}
+
 {% block content %}
-<h2>Dish List</h2>
-<a class="btn btn-primary mb-3" href="{% url 'menu:dish-create' %}">Add Dish</a>
-<ul class="list-group">
-  {% for dish in object_list %}
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      {{ dish.name }}
-      <span>
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'menu:dish-update' dish.pk %}">Edit</a>
-        <a class="btn btn-sm btn-outline-danger" href="{% url 'menu:dish-delete' dish.pk %}">Delete</a>
-      </span>
-    </li>
-  {% endfor %}
-</ul>
+<div class="container py-4 mt-6">
+  <div class="row">
+    <div class="col-lg-10 mx-auto">
+      <div class="card shadow border-radius-xl">
+        <div class="card-header pb-0">
+          <h4 class="mb-0">All Dishes</h4>
+        </div>
+
+        <div class="card-body">
+
+          <!-- 🔍 Search Form -->
+          <form method="get" class="mb-4">
+            <div class="input-group input-group-outline">
+              <label class="form-label">Search dish by name...</label>
+              <input type="text" name="name" class="form-control" value="{{ request.GET.name }}">
+            </div>
+            <button class="btn bg-gradient-primary mt-3" type="submit">Search</button>
+          </form>
+
+          <!-- ➕ Add Dish Button -->
+          <div class="d-flex justify-content-end mb-3">
+            <a class="btn bg-gradient-success" href="{% url 'menu:dish-create' %}">Add Dish</a>
+          </div>
+
+          <!-- 📋 Dish List -->
+          <ul class="list-group">
+            {% for dish in dish_list %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>{{ dish.name }}</strong>
+                  <span class="text-muted">({{ dish.dish_type.name }})</span>
+                </div>
+                <a href="{% url 'menu:dish-detail' dish.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+              </li>
+            {% empty %}
+              <li class="list-group-item text-center">No dishes found.</li>
+            {% endfor %}
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -1,14 +1,64 @@
 {% extends "base.html" %}
 {% block title %}{{ dish.name }}{% endblock %}
-{% block content %}
-<h2>{{ dish.name }}</h2>
-<p><strong>Type:</strong> {{ dish.dish_type }}</p>
-<p><strong>Price:</strong> ${{ dish.price }}</p>
-<p><strong>Description:</strong> {{ dish.description }}</p>
-<p><strong>Ingredients:</strong> {{ dish.ingredients.all|join:", " }}</p>
-<p><strong>Cooks:</strong> {{ dish.cooks.all|join:", " }}</p>
 
-<a class="btn btn-secondary" href="{% url 'menu:dish-update' dish.pk %}">Edit</a>
-<a class="btn btn-danger" href="{% url 'menu:dish-delete' dish.pk %}">Delete</a>
-<a class="btn btn-outline-primary" href="{% url 'menu:dish-list' %}">Back to list</a>
+{% block content %}
+<div class="container py-5 mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow border-radius-xl">
+        <div class="card-header bg-gradient-dark text-dark d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">{{ dish.name }}</h4>
+          <div>
+            <a href="{% url 'menu:dish-update' dish.pk %}" class="btn btn-sm btn-outline-light">Edit</a>
+            <a href="{% url 'menu:dish-delete' dish.pk %}" class="btn btn-sm btn-danger ms-2">Delete</a>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <p><strong>Type:</strong> {{ dish.dish_type }}</p>
+          <p><strong>Price:</strong> ${{ dish.price }}</p>
+          <p><strong>Description:</strong></p>
+          <p class="text-muted">{{ dish.description }}</p>
+
+          <hr>
+
+          <p><strong>Ingredients:</strong></p>
+          <ul>
+            {% for ingredient in dish.ingredients.all %}
+              <li>{{ ingredient.name }}</li>
+            {% empty %}
+              <li>No ingredients listed.</li>
+            {% endfor %}
+          </ul>
+
+          <p><strong>Assigned cooks:</strong></p>
+          <ul>
+            {% for cook in dish.cooks.all %}
+              <li>{{ cook.username }}</li>
+            {% empty %}
+              <li>No cooks assigned yet.</li>
+            {% endfor %}
+          </ul>
+
+          <hr>
+
+          <form method="post" action="{% url 'menu:toggle-assign-to-dish' dish.pk %}">
+            {% csrf_token %}
+            {% if user in dish.cooks.all %}
+              <button type="submit" class="btn bg-gradient-danger">Unassign Me</button>
+            {% else %}
+              <button type="submit" class="btn bg-gradient-success">Assign Me</button>
+            {% endif %}
+          </form>
+
+          <div class="mt-4">
+            <a class="btn btn-outline-primary" href="{% url 'menu:dish-list' %}">← Back to Dishes</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
+

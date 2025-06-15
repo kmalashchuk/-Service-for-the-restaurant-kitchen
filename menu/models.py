@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser, User
 from django.db import models
 
 class DishType(models.Model):
+    objects = None
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -21,6 +22,7 @@ class Ingredient(models.Model):
 
 
 class Dish(models.Model):
+    objects = None
     name = models.CharField(max_length=255)
     description = models.TextField(default="No description")
     price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)

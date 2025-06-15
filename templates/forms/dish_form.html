@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dish Form{% endblock %}
+
+{% block extra_head %}
+  <!-- Select2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="card shadow border-radius-xl">
+        <div class="card-header bg-gradient-dark text-dark text-center">
+          <h4 class="mb-0">Dish Form</h4>
+        </div>
+        <div class="card-body">
+
+          <form method="post" novalidate>
+            {% csrf_token %}
+
+            {% for field in form %}
+              <div class="mb-3">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                  <div class="form-text">{{ field.help_text }}</div>
+                {% endif %}
+                {% if field.errors %}
+                  <div class="text-danger small">{{ field.errors|striptags }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+
+            <div class="d-flex justify-content-between">
+              <button type="submit" class="btn bg-gradient-success">Save</button>
+              <a href="{% url 'menu:dish-list' %}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Select2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <!-- Ініціалізація Select2 -->
+  <script>
+    $(document).ready(function() {
+        $('#id_ingredients').select2({
+          width: '100%',
+          placeholder: 'Select ingredients',
+          allowClear: true
+        });
+    });
+  </script>
+{% endblock %}
