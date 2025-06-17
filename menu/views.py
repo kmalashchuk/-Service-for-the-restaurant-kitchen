@@ -148,14 +148,14 @@ class DishTypeCreateView(generic.CreateView):
     model = DishType
     fields = ["name"]
     success_url = reverse_lazy("menu:dishtype-list")
-    template_name = "forms/dishtype_form.html"
+    template_name = "forms/dish_type_form.html"
 
 
 class DishTypeUpdateView(generic.UpdateView):
     model = DishType
     fields = ["name"]
     success_url = reverse_lazy("menu:dishtype-list")
-    template_name = "forms/dishtype_form.html"
+    template_name = "forms/dish_type_form.html"
 
 class DishTypeDeleteView(generic.DeleteView):
     model = DishType
